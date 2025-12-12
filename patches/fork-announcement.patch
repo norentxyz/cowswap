@@ -1,16 +1,33 @@
-diff --git a/libs/core/src/cms/state/index.ts b/libs/core/src/cms/state/index.ts
---- a/libs/core/src/cms/state/index.ts
-+++ b/libs/core/src/cms/state/index.ts
-@@ -3,4 +3,11 @@ import { atomWithStorage } from 'jotai/utils'
- import { Announcements, SolversInfo } from '../types'
+diff --git a/apps/cowswap-frontend/src/common/updaters/AnnouncementsUpdater.ts b/apps/cowswap-frontend/src/common/updaters/AnnouncementsUpdater.ts
+--- a/apps/cowswap-frontend/src/common/updaters/AnnouncementsUpdater.ts
++++ b/apps/cowswap-frontend/src/common/updaters/AnnouncementsUpdater.ts
+@@ -1,10 +1,18 @@
+ import { useSetAtom } from 'jotai'
+ import { useEffect } from 'react'
 
- export const solversInfoAtom = atomWithStorage<SolversInfo>('solversInfoAtom:v0', [])
--export const announcementsAtom = atomWithStorage<Announcements>('announcements:v0', [])
-+export const announcementsAtom = atomWithStorage<Announcements>('announcements:v0', [
-+  {
-+    text: '🐮 **This is [CoW Swap - No Rent](https://cowswap.norent.xyz)**, an unofficial fork with partner fees and Safe fees removed. Protocol fees still apply as they are enforced on-chain. [View source](https://github.com/norentxyz/cowswap)',
-+    isCritical: false,
-+    chainIds: [],
-+    envs: [],
-+  },
-+])
+-import { announcementsAtom, mapCmsAnnouncementsToAnnouncements } from '@cowprotocol/core'
++import { Announcement, announcementsAtom, mapCmsAnnouncementsToAnnouncements } from '@cowprotocol/core'
+
+ import { useCmsAnnouncements } from 'common/hooks/useCmsAnnouncements'
+
++// Fork announcement - always shown at top
++const FORK_ANNOUNCEMENT: Announcement = {
++  text: '🐮 **This is [CoW Swap - No Rent](https://cowswap.norent.xyz)**, an unofficial fork with partner fees and Safe fees removed. Protocol fees still apply as they are enforced on-chain. [View source](https://github.com/norentxyz/cowswap)',
++  isCritical: true,
++  chainIds: [],
++  envs: [],
++}
++
+ // TODO: Add proper return type annotation
+ // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+ export function AnnouncementsUpdater() {
+@@ -15,7 +23,8 @@ export function AnnouncementsUpdater() {
+   useEffect(() => {
+     const announcements = mapCmsAnnouncementsToAnnouncements(cmsAnnouncements)
+
+-    announcements && setAnnouncements(announcements)
++    // Prepend fork announcement to any CMS announcements
++    setAnnouncements([FORK_ANNOUNCEMENT, ...(announcements || [])])
+   }, [cmsAnnouncements, setAnnouncements])
+
+   return null
