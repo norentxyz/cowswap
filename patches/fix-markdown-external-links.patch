@@ -1,0 +1,40 @@
+diff --git a/apps/cowswap-frontend/src/legacy/components/Markdown/components.tsx b/apps/cowswap-frontend/src/legacy/components/Markdown/components.tsx
+--- a/apps/cowswap-frontend/src/legacy/components/Markdown/components.tsx
++++ b/apps/cowswap-frontend/src/legacy/components/Markdown/components.tsx
+@@ -1,4 +1,4 @@
+-import { ReactElement, useEffect, useRef } from 'react'
++import { AnchorHTMLAttributes, ReactElement, ReactNode, useEffect, useRef } from 'react'
+
+ import { Link } from 'react-router'
+ import styled from 'styled-components/macro'
+@@ -9,6 +9,24 @@ const LinkScrollableStyled = styled(Link)`
+   color: ${({ theme }) => theme.blue1} !important;
+ `
+
++const ExternalLinkStyled = styled.a`
++  color: ${({ theme }) => theme.blue1} !important;
++`
++
++// Handle both internal and external links
++function MarkdownLink({ href, children, ...props }: AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode }) {
++  // External links (http://, https://, or protocol-relative //)
++  if (href && (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//'))) {
++    return (
++      <ExternalLinkStyled href={href} target="_blank" rel="noopener noreferrer" {...props}>
++        {children}
++      </ExternalLinkStyled>
++    )
++  }
++  // Internal links use react-router
++  return <LinkScrollableStyled to={href || '#'} {...props}>{children}</LinkScrollableStyled>
++}
++
+ // TODO: Add proper return type annotation
+ // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+ function Table({ children }: { children: ReactElement }) {
+@@ -35,4 +53,4 @@ function H2({ children }: { children: ReactElement }) {
+   return <h2 ref={ref}>{children}</h2>
+ }
+
+-export const markdownComponents = { table: Table, h2: H2, a: LinkScrollableStyled }
++export const markdownComponents = { table: Table, h2: H2, a: MarkdownLink }
