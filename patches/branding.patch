@@ -1,0 +1,16 @@
+diff --git a/libs/common-const/src/common.ts b/libs/common-const/src/common.ts
+--- a/libs/common-const/src/common.ts
++++ b/libs/common-const/src/common.ts
+@@ -30,10 +30,10 @@ export const PERCENTAGE_PRECISION = 2
+ export const LONG_LOAD_THRESHOLD = 2000
+
+ export const AVG_APPROVE_COST_GWEI = '50000'
+-export const DEFAULT_APP_CODE = 'CoW Swap'
++export const DEFAULT_APP_CODE = 'CoW Swap - No Rent'
+ export const SAFE_APP_CODE = `${DEFAULT_APP_CODE}-SafeApp`
+
+-export const APP_TITLE = msg`CoW Swap | The smartest way to trade cryptocurrencies`
++export const APP_TITLE = msg`CoW Swap - No Rent | Fee-free trading`
+
+ export const PAGE_TITLES = {
+   SWAP: msg`Swap`,

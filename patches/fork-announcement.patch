@@ -1,0 +1,16 @@
+diff --git a/libs/core/src/cms/state/index.ts b/libs/core/src/cms/state/index.ts
+--- a/libs/core/src/cms/state/index.ts
++++ b/libs/core/src/cms/state/index.ts
+@@ -3,4 +3,11 @@ import { atomWithStorage } from 'jotai/utils'
+ import { Announcements, SolversInfo } from '../types'
+
+ export const solversInfoAtom = atomWithStorage<SolversInfo>('solversInfoAtom:v0', [])
+-export const announcementsAtom = atomWithStorage<Announcements>('announcements:v0', [])
++export const announcementsAtom = atomWithStorage<Announcements>('announcements:v0', [
++  {
++    text: '🐮 **This is [CoW Swap - No Rent](https://cowswap.norent.xyz)**, an unofficial fork with partner fees and Safe fees removed. Protocol fees still apply as they are enforced on-chain. [View source](https://github.com/norentxyz/cowswap)',
++    isCritical: false,
++    chainIds: [],
++    envs: [],
++  },
++])

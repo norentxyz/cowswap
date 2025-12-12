@@ -1,0 +1,24 @@
+diff --git a/apps/cowswap-frontend/src/modules/volumeFee/state/volumeFeeAtom.ts b/apps/cowswap-frontend/src/modules/volumeFee/state/volumeFeeAtom.ts
+--- a/apps/cowswap-frontend/src/modules/volumeFee/state/volumeFeeAtom.ts
++++ b/apps/cowswap-frontend/src/modules/volumeFee/state/volumeFeeAtom.ts
+@@ -12,17 +12,9 @@ import { safeAppFeeAtom } from './safeAppFeeAtom'
+
+ import { VolumeFee } from '../types'
+
+-export const volumeFeeAtom = atom<VolumeFee | undefined>((get) => {
+-  const widgetPartnerFee = get(widgetPartnerFeeAtom)
+-  const safeAppFee = get(safeAppFeeAtom)
+-  const shouldSkipFee = get(shouldSkipFeeAtom)
+-
+-  if (!widgetPartnerFee && shouldSkipFee) {
+-    return undefined
+-  }
+-
+-  // CoW Swap Fee won't be enabled when in Widget mode, thus it takes precedence here
+-  return safeAppFee || widgetPartnerFee
++export const volumeFeeAtom = atom<VolumeFee | undefined>((_get) => {
++  // All partner/volume fees disabled
++  return undefined
+ })
+
+ const shouldSkipFeeAtom = atom<boolean>((get) => {
